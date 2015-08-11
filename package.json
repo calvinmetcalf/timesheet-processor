@@ -7,10 +7,10 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
+  "devDependencies": {
+    "nodeunit": "^0.9.1",
     "underscore": "~1"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "nodeunit test"
   },

@@ -13,12 +13,12 @@ exports.createTask = function (test) {
   test.done();
 };
 
-exports.createTask_NoComments = function (test) {
+exports.createTaskNoComments = function (test) {
   var text = '[12:30-1:00] Lunch';
   var task = fn.createTask(text);
 
   test.equal(task.project, 'Lunch');
-  test.equal(task.comments.length, 0, 'comments should be an empty array');
+  test.equal(task.comments.size, 0, 'comments should be an empty set');
 
   test.done();
 };
@@ -41,13 +41,12 @@ exports.getGroupedTasks = function (test) {
     new Task('MBI', '11:30', '2:00', 'e')
   ];
   var groupedTasks = fn.getGroupedTasks(tasks);
-
   test.equal(groupedTasks.length, 3);
 
   var mbiTask = _.findWhere(groupedTasks, { project: 'MBI' });
 
   test.equal(mbiTask.time, 3.75);
-  test.equal(mbiTask.comments.length, 3);
+  test.equal(mbiTask.comments.size, 3);
 
   test.done();
 };
@@ -67,7 +66,7 @@ exports.getHoursForTasks = function (test) {
   test.done();
 };
 
-exports.getHoursForTasks_Rounded = function (test) {
+exports.getHoursForTasksRounded = function (test) {
   var tasks = [
     new Task('MBI', '9:00', '10:10', 'a, b'),
     new Task('WGA', '10:15', '11:00', 'c, d'),
@@ -86,10 +85,10 @@ exports.roundHours = function (test) {
   var hours = fn.roundHours(1.5);
   var hours2 = fn.roundHours(1.001);
   var hours3 = fn.roundHours(1.6667);
-  
+
   test.equal(hours, 1.5);
   test.equal(hours2, 1.25);
   test.equal(hours3, 1.75);
-  
+
   test.done();
 };

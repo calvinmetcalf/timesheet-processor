@@ -1,6 +1,5 @@
 'use strict';
 
-var _ = require('underscore');
 var Task = require('../task').Task;
 
 exports.newTask = function (test) {
@@ -9,13 +8,13 @@ exports.newTask = function (test) {
 
   test.equal(task.project, 'MBI');
   test.equal(task.time, 1.25);
-  test.deepEqual(task.comments, ['foo', 'bar']);
+  test.deepEqual(task.comments, new Set(['foo', 'bar']));
 
   test.done();
 
 };
 
-exports.newTask_NoMinutes = function (test) {
+exports.newTaskNoMinutes = function (test) {
 
   var task = new Task('MBI', '8', '9', 'foo, bar');
 
@@ -25,11 +24,11 @@ exports.newTask_NoMinutes = function (test) {
 
 };
 
-exports.newTask_NoComments = function (test) {
+exports.newTaskNoComments = function (test) {
 
   var task = new Task('MBI', '8:00', '9:15', '');
 
-  test.equal(task.comments.length, 0);
+  test.equal(task.comments.size, 0);
 
   test.done();
 

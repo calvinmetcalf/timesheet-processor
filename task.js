@@ -1,13 +1,13 @@
 'use strict';
 
-var _ = require('underscore');
-
 /// returns: array of unique comment strings or an
 ///          empty array if there are no comments
 function parseComments(commentsString) {
-  return _.compact(_.uniq(commentsString.split(',').map(function (s) {
+  return new Set(commentsString.split(',').map(function (s) {
     return s.trim();
-  })));
+  }).filter(function (s) {
+    return s;
+  }));
 }
 
 function getElapsedTime(startTime, endTime) {
@@ -43,6 +43,6 @@ exports.Task = function (project, startTime, endTime, comments) {
 
 // Shared task functions
 exports.Task.prototype.isBillable = function () {
-  return this.comments.length > 0 &&
+  return this.comments.size > 0 &&
     this.project.lastIndexOf('*') !== this.project.length - 1;
 };

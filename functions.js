@@ -1,6 +1,5 @@
 'use strict';
 
-var _ = require('underscore');
 var Task = require('./task').Task;
 
 var regex = {
@@ -41,8 +40,7 @@ exports.getGroupedTasks = function (tasks) {
   var groupedTasks = [];
   var projects = [];
 
-  for (var i in tasks) {
-    var task = tasks[i];
+  tasks.forEach(function (task) {
     var projectIndex = projects.indexOf(task.project);
 
     if (projectIndex === -1) {
@@ -55,20 +53,22 @@ exports.getGroupedTasks = function (tasks) {
       var groupedTask = groupedTasks[projectIndex];
 
       groupedTask.time += task.time;
-      groupedTask.comments = _.union(groupedTask.comments, task.comments);
-
-      groupedTasks[projectIndex] = groupedTask;
+      task.comments.forEach(function (task) {
+        groupedTask.comments.add(task);
+      });
 
     }
-  }
+  });
 
   return groupedTasks;
 };
-
+function id(thing) {
+  return thing;
+}
 exports.getHoursForTasks = function (tasks, roundingFunction) {
   var projectHours = 0; // Hours for tasks with comments
   var totalHours = 0; // Hours for all tasks
-  roundingFunction = roundingFunction || _.identity;
+  roundingFunction = roundingFunction || id;
 
   for (var i in tasks) {
     var task = tasks[i];
